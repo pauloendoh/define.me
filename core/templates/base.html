@@ -3,11 +3,12 @@
 <html>
 <head>
     <link href="{% static 'styles/main.css' %}" rel="stylesheet">
-    <title>{% block title %}define.me{% endblock %}</title>
+    <title>{% block title %}Define.me{% endblock %}</title>
+
+    <!--Importing Opens Sans font-family-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
+{% block content %}{% endblock %}
 </body>
 </html>
