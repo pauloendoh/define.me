@@ -20,4 +20,7 @@ def index(request):
     return render(request, 'home.html')
 
 def login(request):
-    return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        return render(request, 'login.html')
