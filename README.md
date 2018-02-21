@@ -1,2 +1,2 @@
 # define.me
-A personal dictionary for question and answers.
+A personal dictionary for your questions and answers.
