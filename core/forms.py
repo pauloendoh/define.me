@@ -8,3 +8,4 @@ class CreateQuestionForm(forms.ModelForm):
         model = Question
         fields =  ('q','a','tag', 'priority')
 
+

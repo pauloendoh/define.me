@@ -60,3 +60,19 @@ def delete_question(request):
         if question.user == request.user :
             question.delete()
     return redirect('index')
+
+@login_required
+def edit_question(request, question_id):
+    question = Question.objects.get(id=question_id)
+    user = User.objects.get(id=request.user.id)
+    if question.user == user:
+        if request.method == 'POST':
+            question.q = request.POST.get('q')
+            question.a = request.POST.get('a')
+            question.tag = request.POST.get('tag')
+            question.priority= request.POST.get('priority')
+            question.save()
+            return redirect('index')
+        return render(request, 'edit_question.html', {'question':question})
+    else:
+        return redirect('index')

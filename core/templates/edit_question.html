@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit question{% endblock %}
+
+{% block content %}
+<h2>Edit question</h2>
+<form method="post" id="editQuestionForm">
+    {% csrf_token %}
+    <label>Question: <input type="text" name="q" value="{{ question.q }}"/></label><br>
+    <label>Answer: <textarea form="editQuestionForm" name="a">{{ question.a }}</textarea> </label><br>
+    <label>Tag: <input type="text" name="tag" value="{{ question.tag }}"/></label><br>
+    <label>Priority: <input type="number" name="priority" value="{{ question.priority|floatformat }}"  min="1" max="3" /></label><br>
+    <input type="submit" value="save"/>
+</form>
+{% endblock %}

@@ -11,6 +11,11 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
+<form method="get" action="">
+    {% csrf_token %}
+    <input type="text" name="q" placeholder="Search" />
+    <input type="submit" value="Go">
+</form>
 {% block content %}{% endblock %}
 </body>
 </html>

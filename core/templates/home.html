@@ -4,10 +4,10 @@
 <h2>{{ user.username }} is logged in</h2>
 <a href="{% url 'logout' %}">Logout</a>
 <a href="{% url 'create_question' %}">Create question</a>
-
 {% if questions %}
 <table>
     <tr>
+        <th>Edit</th>
         <th>Question</th>
         <th>Answer</th>
         <th>Tag</th>
@@ -17,6 +17,9 @@
     </tr>
     {% for question in questions %}
     <tr>
+        <td>
+            <a href="{% url 'edit_question' question.id %}">Edit</a>
+        </td>
         <td>{{ question.q }}</td>
         <td>
             {% if not question.a %}
@@ -37,13 +40,12 @@
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ question.id }}"/>
                 <input type="submit" value="Delete">
-            </form></a>
+            </form>
         </td>
     </tr>
     {% endfor %}
     <tr></tr>
 </table>
 {% endif %}
-
 
 {% endblock %}
