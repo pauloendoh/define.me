@@ -10,5 +10,7 @@ urlpatterns = [
     path('create/', views.create_question, name='create_question'),
     path('delete/', views.delete_question, name='delete_question'),
     path('edit/<int:question_id>', views.edit_question, name='edit_question'),
+    path('search', views.search_question, name='search_question'),
+    path('tag/<str:tag>', views.show_tag, name='show_tag'),
 
 ]

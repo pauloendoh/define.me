@@ -11,8 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
-<form method="get" action="">
-    {% csrf_token %}
+<form method="get" action="{% url 'search_question' %}">
     <input type="text" name="q" placeholder="Search" />
     <input type="submit" value="Go">
 </form>

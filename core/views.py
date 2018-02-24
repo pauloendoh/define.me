@@ -76,3 +76,15 @@ def edit_question(request, question_id):
         return render(request, 'edit_question.html', {'question':question})
     else:
         return redirect('index')
+
+@login_required
+def search_question(request):
+    query = request.GET.get('q')
+    results = Question.objects.filter(q__icontains = query)
+    return render(request, 'search.html', {"results":results})
+
+@login_required
+def show_tag(request, tag):
+    user = request.user
+    questions = Question.objects.filter(user=user, tag=tag)
+    return render(request, 'tag.html', {"tag":tag, "questions":questions })

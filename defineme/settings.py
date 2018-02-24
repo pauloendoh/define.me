@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -46,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # <-- social login
 ]
 
 ROOT_URLCONF = 'defineme.urls'
@@ -61,6 +64,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
@@ -120,3 +126,27 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    'social_core.backends.google.GoogleOpenId',  # for Google authentication
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = 'e02ee5fde57d6c555137'
+SOCIAL_AUTH_GITHUB_SECRET = '29a3fe1c5f08b5107881e6193ad90552f46581c8'
+
+SOCIAL_AUTH_TWITTER_KEY = 'I4uwXRcGrXpH6VwwwlK440qyn'
+SOCIAL_AUTH_TWITTER_SECRET = 'ZMRba4j5xOyhyiBYLnjPAa7DKPYzv0olUXdHjsOLD53X4Efqwb'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '2176843249209917'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c35bcb89492c1e34d2a8ab41793812e1'  # App Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='824762727507-83avgns48ek57fnmus2r7se696aj1m33.apps.googleusercontent.com'  #Paste CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ToGW1bsWlJej4Ohvo_cCvcaD' #Paste Secret Key
