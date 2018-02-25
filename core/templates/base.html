@@ -7,12 +7,15 @@
     <link href="{% static 'styles/main.css' %}" rel="stylesheet">
     <title>{% block title %}Define.me{% endblock %}</title>
 
+    <!--importing jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <!--Importing Opens Sans font-family-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
 <form method="get" action="{% url 'search_question' %}">
-    <input type="text" name="q" placeholder="Search" />
+    <input type="text" name="q" placeholder="Search" autofocus/>
     <input type="submit" value="Go">
 </form>
 {% block content %}{% endblock %}

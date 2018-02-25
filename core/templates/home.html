@@ -1,6 +1,37 @@
 {% extends 'base.html' %}
+
 {% block title %}Define.me - {{ user.username }}{% endblock %}
+
 {% block content %}
+
+<!--jQuery AJAX to update questions-->
+<script>
+$(document).ready(function(){
+    console.log('jQuery is working'); //sanity check
+    $('.update-question-form').submit(function(event){
+        event.preventDefault();
+        console.log('Form submitted'); //sanity check
+        var question_id = $(this).find("input[type=submit]").val();
+        console.log(question_id);
+        update_question(this, question_id);
+    });
+});
+
+function update_question(event, question_id){
+    console.log('Starting update_question() function, question id = ' + question_id); //sanity check
+    console.log($(event).find("input[type=text]").val()); //sanity check
+     $.ajax(
+        url = "/ajax/update_question",
+        type = "POST",
+        data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+    );
+};
+
+
+</script>
+
 <h2>{{ user.username }} is logged in</h2>
 <a href="{% url 'logout' %}">Logout</a>
 <a href="{% url 'create_question' %}">Create question</a>
@@ -20,7 +51,13 @@
         <td>
             <a href="{% url 'edit_question' question.id %}">Edit</a>
         </td>
-        <td>{{ question.q }}</td>
+        <td>
+            <form class="update-question-form">
+                {% csrf_token %}
+                <input type="text" value="{{ question.q }}"/>
+                <input type="submit" value="{{ question.id }}" style="display:none;"/>
+            </form>
+        </td>
         <td>
             {% if not question.a %}
             <form method="post">
@@ -45,7 +82,7 @@
             <form method='post' action="{% url 'delete_question' %}">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="submit" value="Delete">
+                <input name="submit" type="submit" value="Delete">
             </form>
         </td>
     </tr>

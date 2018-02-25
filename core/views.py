@@ -79,8 +79,9 @@ def edit_question(request, question_id):
 
 @login_required
 def search_question(request):
+    user = request.user
     query = request.GET.get('q')
-    results = Question.objects.filter(q__icontains = query)
+    results = Question.objects.filter(q__icontains = query, user=user)
     return render(request, 'search.html', {"results":results})
 
 @login_required
