@@ -12,5 +12,5 @@ urlpatterns = [
     path('edit/<int:question_id>', views.edit_question, name='edit_question'),
     path('search', views.search_question, name='search_question'),
     path('tag/<str:tag>', views.show_tag, name='show_tag'),
-
+    path('ajax/update_question', views.update_question, name='update_question')
 ]

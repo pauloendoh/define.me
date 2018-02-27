@@ -1,23 +1,60 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'styles/main.css' %}" rel="stylesheet">
     <title>{% block title %}Define.me{% endblock %}</title>
 
-    <!--importing jQuery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-    <!--Importing Opens Sans font-family-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link href="{% static 'styles/main.css' %}" rel="stylesheet">
+
+    <!--Google Icons-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
 </head>
+
 <body>
-<form method="get" action="{% url 'search_question' %}">
-    <input type="text" name="q" placeholder="Search" autofocus/>
-    <input type="submit" value="Go">
-</form>
+<!--
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+        &lt;!&ndash;<form class="form-inline" method="get" action="{% url 'search_question' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" placeholder="Search your question"/>
+                <div class="input-group-append">
+                    <button class="form-control"><i class="material-icons align-middle">search</i></button>
+                </div>
+            </div>
+        </form>&ndash;&gt;
+    </div>
+    <div class="col-sm-6">
+        {% if request.user.is_authenticated %}
+        <ul class="list-inline">
+            <li class="list-inline-item font-weight-bold">{{ user.username }}</li>
+            <li class="list-inline-item"><a href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="list-inline-item"><a href="{% url 'create_question' %}">Create question</a></li>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+-->
+
+
 {% block content %}{% endblock %}
+
 </body>
 </html>

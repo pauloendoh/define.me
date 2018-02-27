@@ -3,6 +3,13 @@
 {% block title %}Define.me - Login{% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+<script language="javascript">
+    window.location.href = "http://localhost:8080/"
+</script>
+{% endif %}
+
 <h2>Login</h2>
 <form method="post">
     {% csrf_token %}

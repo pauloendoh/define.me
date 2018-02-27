@@ -19,46 +19,54 @@ $(document).ready(function(){
 
 function update_question(event, question_id){
     console.log('Starting update_question() function, question id = ' + question_id); //sanity check
-    console.log($(event).find("input[type=text]").val()); //sanity check
-     $.ajax(
-        url = "/ajax/update_question",
-        type = "POST",
-        data = {
+    question_q = $(event).find("input[type=text]").val(); //sanity check
+    console.log("The new question is: "+ question_q); // Sanity check
+
+     $.ajax({
+        url: "/ajax/update_question",
+        type: "POST",
+        data: {
             csrfmiddlewaretoken: '{{ csrf_token }}',
-        },
-    );
+            question_id: question_id,
+            question_q: question_q,
+        } ,
+
+        dataType: 'json',
+
+        success : function(data){
+            console.log(data.teste);
+            console.log("Question updated");
+
+        }
+    });
 };
 
 
 </script>
 
-<h2>{{ user.username }} is logged in</h2>
-<a href="{% url 'logout' %}">Logout</a>
-<a href="{% url 'create_question' %}">Create question</a>
 {% if questions %}
-<table>
+<table class="table">
+    <thead class="thead-light">
     <tr>
-        <th>Edit</th>
-        <th>Question</th>
-        <th>Answer</th>
-        <th>Tag</th>
-        <th>Priority</th>
-        <th>Created at</th>
-        <th>Delete</th>
+        <th class="align-middle">Question</th>
+        <th class="align-middle">Answer</th>
+        <th class="text-center align-middle">Tag</th>
+        <th class="text-center align-middle">Priority</th>
+        <th class="text-center align-middle">Created at</th>
+        <th class="text-center align-middle">Delete</th>
     </tr>
+    </thead>
+
     {% for question in questions %}
     <tr>
-        <td>
-            <a href="{% url 'edit_question' question.id %}">Edit</a>
-        </td>
-        <td>
+        <td class="align-middle">
             <form class="update-question-form">
                 {% csrf_token %}
-                <input type="text" value="{{ question.q }}"/>
+                <input class="form-control" type="text" value="{{ question.q }}" />
                 <input type="submit" value="{{ question.id }}" style="display:none;"/>
             </form>
         </td>
-        <td>
+        <td class="align-middle">
             {% if not question.a %}
             <form method="post">
                 {% csrf_token %}
@@ -69,16 +77,16 @@ function update_question(event, question_id){
             {% endif %}
             {{ question.a }}
         </td>
-        <td>
+        <td class="text-center align-middle">
             {% if question.tag %}
-            <a href="{% url 'show_tag' question.tag %}">
+            <a class="text-success" href="{% url 'show_tag' question.tag %}">
                 {{ question.tag }}
             </a>
             {% endif %}
         </td>
-        <td>{{ question.priority|floatformat }}</td>
-        <td>{{ question.created_at }}</td>
-        <td>
+        <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
+        <td class="text-center align-middle">{{ question.created_at }}</td>
+        <td class="text-center align-middle">
             <form method='post' action="{% url 'delete_question' %}">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ question.id }}"/>

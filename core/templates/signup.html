@@ -3,11 +3,25 @@
 {% block title %}Define.me - Your personal dictionary{% endblock %}
 
 {% block content %}
-<h2>Sign up</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-</form>
-<a href="{% url 'login' %}">Login</a>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 class="align-middle">Define.me</h1>
+            <h2>Your personal dictionary.</h2>
+        </div>
+        <div class="col-sm-6">
+            <h3>Sign Up for Free</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Sign up</button>
+            </form>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+
+</div>
+
+
 {% endblock %}
