@@ -42,61 +42,78 @@ function update_question(event, question_id){
 };
 
 
+
 </script>
 
 {% if questions %}
-<table class="table">
-    <thead class="thead-light">
-    <tr>
-        <th class="align-middle">Question</th>
-        <th class="align-middle">Answer</th>
-        <th class="text-center align-middle">Tag</th>
-        <th class="text-center align-middle">Priority</th>
-        <th class="text-center align-middle">Created at</th>
-        <th class="text-center align-middle">Delete</th>
-    </tr>
-    </thead>
+<div class="pt-3 container">
 
-    {% for question in questions %}
-    <tr>
-        <td class="align-middle">
-            <form class="update-question-form">
-                {% csrf_token %}
-                <input class="form-control" type="text" value="{{ question.q }}" />
-                <input type="submit" value="{{ question.id }}" style="display:none;"/>
-            </form>
-        </td>
-        <td class="align-middle">
-            {% if not question.a %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="text" name="a" placeholder="Answer"/>
-                <input type="submit" value="save"/>
-            </form>
-            {% endif %}
-            {{ question.a }}
-        </td>
-        <td class="text-center align-middle">
-            {% if question.tag %}
-            <a class="text-success" href="{% url 'show_tag' question.tag %}">
-                {{ question.tag }}
-            </a>
-            {% endif %}
-        </td>
-        <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
-        <td class="text-center align-middle">{{ question.created_at }}</td>
-        <td class="text-center align-middle">
-            <form method='post' action="{% url 'delete_question' %}">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input name="submit" type="submit" value="Delete">
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr></tr>
-</table>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link text-success font-weight-bold active" href="#">All </a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">Unanswered</a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">Untagged</a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">#programming</a></li>
+    </ul>
+
+    <table class="table">
+
+        <thead class="thead-light">
+        <tr>
+            <th class="align-middle" style="width: 40%;">Question</th>
+            <th class="align-middle" style="width: 40%;">Answer</th>
+            <th class="text-center align-middle" style="width:5%;">Tag</th>
+            <th class="text-center align-middle" style="width:5%;">Priority</th>
+            <th class="text-center align-middle" style="width:5%;">Created at</th>
+            <th class="text-center align-middle" style="width:5%;">Delete</th>
+        </tr>
+        </thead>
+
+        {% for question in questions %}
+        <tr>
+
+            <!--  Questions -->
+            <td class="align-middle">
+                <form class="update-question-form">
+                    {% csrf_token %}
+                    <input class="form-control" type="text" value="{{ question.q }}"/>
+                    <input type="submit" value="{{ question.id }}" style="display:none;"/>
+                </form>
+            </td>
+
+            <!-- Answers -->
+            <td class="align-middle">
+                {% if not question.a %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ question.id }}"/>
+                    <input type="text" name="a" placeholder="Answer"/>
+                    <input type="submit" value="save"/>
+                </form>
+                {% endif %}
+                {{ question.a }}
+            </td>
+            <td class="text-center align-middle">
+                {% if question.tag %}
+                <a class="text-success" href="{% url 'show_tag' question.tag %}">
+                    {{ question.tag }}
+                </a>
+                {% endif %}
+            </td>
+            <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
+            <td class="text-center align-middle">{{ question.created_at }}</td>
+            <td class="text-center align-middle">
+                <form method='post' action="{% url 'delete_question' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ question.id }}"/>
+                    <input name="submit" type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr></tr>
+    </table>
+</div>
+
 {% endif %}
 
 {% endblock %}
