@@ -46,19 +46,21 @@ function update_question(event, question_id){
 
 
 
-
-
-
 </script>
+
 
 {% if questions %}
 <div class="pt-3 pb-3 container rounded-right rounded-bottom">
 
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link text-success font-weight-bold active" href="#">All </a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">Unanswered</a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">Untagged</a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">#programming</a></li>
+        {% for tag in tags %}
+        {% if tag.tag %}
+        <li class="nav-item"><a class="nav-link text-success" href="{%  url 'show_tag' tag.tag %}">#{{ tag.tag }}
+        </a></li>
+        {% endif %}
+
+        {% endfor%}
     </ul>
 
     <table class="table border bg-white rounded-right rounded-bottom">

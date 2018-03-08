@@ -10,3 +10,7 @@ class Question(models.Model):
     tag = models.CharField(max_length=20, null=True, blank=True)
     #priority = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(3)], null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['updated_at', 'tag']

@@ -7,7 +7,20 @@
 
 <div class="pt-3 pb-3 container rounded-right rounded-bottom">
 
-    <h2>#{{ tag }}</h2>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link text-success " href="/">All </a></li>
+        {% for tag in tags %}
+        {% if tag.tag %}
+        <li class="nav-item"><a class="nav-link text-success
+{% if tag.tag == tag_name %}
+font-weight-bold active
+{% endif %}
+" href="{%  url 'show_tag' tag.tag %}">#{{ tag.tag }}
+        </a></li>
+        {% endif %}
+
+        {% endfor%}
+    </ul>
 
 
     <table class="table border bg-white rounded-right rounded-bottom">
@@ -36,8 +49,6 @@
             <td class="align-middle text-justify answer-cell">
                 {{ question.a }}
             </td>
-
-
 
 
             <!-- Edit column -->

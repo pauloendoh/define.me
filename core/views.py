@@ -32,8 +32,9 @@ def index(request):
         question.a = answer
         question.save()
 
-    questions = Question.objects.filter(user=user)
-    return render(request, 'home.html', {"questions": questions})
+    questions = Question.objects.filter(user=user).order_by('-updated_at')
+    tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
+    return render(request, 'home.html', {"questions": questions, "tags": tags})
 
 
 def login(request):
@@ -52,8 +53,7 @@ def create_question(request):
             form.user = request.user
             form.save()
             return redirect('index')
-    form = CreateQuestionForm()
-    return render(request, 'create_question.html', {"form": form})
+    return render(request, 'create_question.html')
 
 
 @login_required
@@ -75,7 +75,6 @@ def edit_question(request, question_id):
             question.q = request.POST.get('q')
             question.a = request.POST.get('a')
             question.tag = request.POST.get('tag')
-            #question.priority = request.POST.get('priority')
             question.save()
             return redirect('index')
         return render(request, 'edit_question.html', {'question': question})
@@ -88,19 +87,21 @@ def search_question(request):
     user = request.user
     query = request.GET.get('q')
     results = Question.objects.filter(q__icontains=query, user=user)
-    return render(request, 'search.html', {"results": results, "query":query})
+    tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
+    return render(request, 'search.html', {"results": results, "query": query, "tags": tags})
 
 
 @login_required
 def show_tag(request, tag):
     user = request.user
-    questions = Question.objects.filter(user=user, tag=tag)
-    return render(request, 'tag.html', {"tag": tag, "questions": questions})
+    questions = Question.objects.filter(user=user, tag=tag).order_by('-updated_at')
+    tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
+
+    return render(request, 'tag.html', {"tag": tag, "questions": questions, "tags": tags, "tag_name": tag})
 
 
 @login_required
 def update_question(request):
-
     data = {
         'teste': 'Testando123'
     }
