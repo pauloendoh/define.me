@@ -6,6 +6,6 @@ from .models import Question
 class CreateQuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields =  ('q','a','tag', 'priority')
+        fields =  ('q','a','tag', )
 
 

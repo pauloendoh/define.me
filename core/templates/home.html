@@ -7,7 +7,9 @@
 <!--jQuery AJAX to update questions-->
 <script>
 $(document).ready(function(){
+
     console.log('jQuery is working'); //sanity check
+
     $('.update-question-form').submit(function(event){
         event.preventDefault();
         console.log('Form submitted'); //sanity check
@@ -15,6 +17,7 @@ $(document).ready(function(){
         console.log(question_id);
         update_question(this, question_id);
     });
+
 });
 
 function update_question(event, question_id){
@@ -43,10 +46,13 @@ function update_question(event, question_id){
 
 
 
+
+
+
 </script>
 
 {% if questions %}
-<div class="pt-3 container">
+<div class="pt-3 pb-3 container rounded-right rounded-bottom">
 
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link text-success font-weight-bold active" href="#">All </a></li>
@@ -55,16 +61,23 @@ function update_question(event, question_id){
         <li class="nav-item"><a class="nav-link text-success" href="#">#programming</a></li>
     </ul>
 
-    <table class="table">
+    <table class="table border bg-white rounded-right rounded-bottom">
 
-        <thead class="thead-light">
+        <thead>
         <tr>
             <th class="align-middle" style="width: 40%;">Question</th>
             <th class="align-middle" style="width: 40%;">Answer</th>
-            <th class="text-center align-middle" style="width:5%;">Tag</th>
+
+            <!-- Doesn't need priority yet...
             <th class="text-center align-middle" style="width:5%;">Priority</th>
+            -->
+
+            <!-- Doesn't need timestamp yet
             <th class="text-center align-middle" style="width:5%;">Created at</th>
-            <th class="text-center align-middle" style="width:5%;">Delete</th>
+            -->
+
+            <th class="text-center align-middle" style="width:15%;">Tag</th>
+            <th class="text-center align-middle" style="width:5%;">Edit</th>
         </tr>
         </thead>
 
@@ -72,26 +85,36 @@ function update_question(event, question_id){
         <tr>
 
             <!--  Questions -->
-            <td class="align-middle">
-                <form class="update-question-form">
+            <td class="align-middle text-justify">
+                {{ question.q }}
+
+                <!--<form class="update-question-form">
                     {% csrf_token %}
                     <input class="form-control" type="text" value="{{ question.q }}"/>
                     <input type="submit" value="{{ question.id }}" style="display:none;"/>
-                </form>
+                </form>-->
             </td>
 
             <!-- Answers -->
-            <td class="align-middle">
-                {% if not question.a %}
+            <td class="align-middle text-justify answer-cell">
+
+                <!--{% if not question.a %}
                 <form method="post">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{ question.id }}"/>
                     <input type="text" name="a" placeholder="Answer"/>
                     <input type="submit" value="save"/>
                 </form>
-                {% endif %}
+                {% endif %}-->
                 {{ question.a }}
             </td>
+
+
+            <!-- Doesn't need priority and timestamp yet
+            <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
+            <td class="text-center align-middle">{{ question.created_at|date:'Y-m-d' }}</td>-->
+
+            <!-- Tag column -->
             <td class="text-center align-middle">
                 {% if question.tag %}
                 <a class="text-success" href="{% url 'show_tag' question.tag %}">
@@ -99,18 +122,18 @@ function update_question(event, question_id){
                 </a>
                 {% endif %}
             </td>
-            <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
-            <td class="text-center align-middle">{{ question.created_at }}</td>
+
+            <!-- Edit column -->
             <td class="text-center align-middle">
-                <form method='post' action="{% url 'delete_question' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ question.id }}"/>
-                    <input name="submit" type="submit" value="Delete">
-                </form>
+                <a href="{% url 'edit_question' question.id %}">
+                    <i class="material-icons align-middle text-success">edit</i>
+
+                </a>
+
             </td>
+
         </tr>
         {% endfor %}
-        <tr></tr>
     </table>
 </div>
 

@@ -3,46 +3,62 @@
 {% block title %}Search result{% endblock %}
 
 {% block content %}
-<h2>Search result</h2>
-<table>
-    <tr>
-        <th>Edit</th>
-        <th>Question</th>
-        <th>Answer</th>
-        <th>Tag</th>
-        <th>Priority</th>
-        <th>Created at</th>
-        <th>Delete</th>
-    </tr>
-    {% for question in results %}
-    <tr>
-        <td>
-            <a href="{% url 'edit_question' question.id %}">Edit</a>
-        </td>
-        <td>{{ question.q }}</td>
-        <td>
-            {% if not question.a %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="text" name="a" placeholder="Answer"/>
-                <input type="submit" value="save"/>
-            </form>
-            {% endif %}
-            {{ question.a }}
-        </td>
-        <td>{{ question.tag }}</td>
-        <td>{{ question.priority|floatformat }}</td>
-        <td>{{ question.created_at }}</td>
-        <td>
-            <form method='post' action="{% url 'delete_question' %}">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="submit" value="Delete">
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr></tr>
-</table>
+
+<div class="pt-3 pb-3 container rounded-right rounded-bottom">
+
+    <table class="table border bg-white rounded-right rounded-bottom">
+
+        <thead>
+        <tr>
+            <th class="align-middle" style="width: 40%;">Question</th>
+            <th class="align-middle" style="width: 40%;">Answer</th>
+
+
+
+            <th class="text-center align-middle" style="width:15%;">Tag</th>
+            <th class="text-center align-middle" style="width:5%;">Edit</th>
+        </tr>
+        </thead>
+
+        {% for question in results %}
+        <tr>
+
+            <!--  Questions -->
+            <td class="align-middle text-justify">
+                {{ question.q }}
+
+
+            </td>
+
+            <!-- Answers -->
+            <td class="align-middle text-justify answer-cell">
+                {{ question.a }}
+            </td>
+
+
+
+            <!-- Tag column -->
+            <td class="text-center align-middle">
+                {% if question.tag %}
+                <a class="text-success" href="{% url 'show_tag' question.tag %}">
+                    {{ question.tag }}
+                </a>
+                {% endif %}
+            </td>
+
+            <!-- Edit column -->
+            <td class="text-center align-middle">
+                <a href="{% url 'edit_question' question.id %}">
+                    <i class="material-icons align-middle text-success">edit</i>
+
+                </a>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
 {% endblock %}

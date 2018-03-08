@@ -3,10 +3,38 @@
 {% block title %}Create a question{% endblock %}
 
 {% block content %}
-<h2>Create a question</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create"/>
-</form>
+
+<div class="mt-3 container rounded bg-white">
+    <div class="container pt-3">
+        <h3>New question:</h3>
+
+        <form class="mt-4 " method="post">
+            {% csrf_token %}
+            <div class="row ">
+                <div class="col">
+                    <textarea name="q" class="form-control" placeholder="Question (required)" rows="5"
+                              style="resize: none;"></textarea>
+                </div>
+                <div class="col">
+                    <textarea name="a" class="form-control"  placeholder="Answer" rows="5"
+                              style="resize: none;"></textarea>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col">
+                    <input class="form-control " type="text" name="tag" placeholder="Tag (15 characters maximum)"/>
+
+                </div>
+                <button type="submit" class="mr-3 mb-3 btn btn-success">Create</button>
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
 {% endblock %}
