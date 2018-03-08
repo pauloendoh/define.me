@@ -1,48 +1,59 @@
 {% extends 'base.html' %}
 
-{% block title %}Tag{% endblock %}
+{% block title %}#{{ tag }}{% endblock %}
 
+<!-- BEGINNING OF CONTENT BLOCK -->
 {% block content %}
-<h2>#{{ tag }}</h2>
-<table>
-    <tr>
-        <th>Edit</th>
-        <th>Question</th>
-        <th>Answer</th>
-        <th>Tag</th>
-        <th>Priority</th>
-        <th>Created at</th>
-        <th>Delete</th>
-    </tr>
-    {% for question in questions %}
-    <tr>
-        <td>
-            <a href="{% url 'edit_question' question.id %}">Edit</a>
-        </td>
-        <td>{{ question.q }}</td>
-        <td>
-            {% if not question.a %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="text" name="a" placeholder="Answer"/>
-                <input type="submit" value="save"/>
-            </form>
-            {% endif %}
-            {{ question.a }}
-        </td>
-        <td>{{ question.tag }}</td>
-        <td>{{ question.priority|floatformat }}</td>
-        <td>{{ question.created_at }}</td>
-        <td>
-            <form method='post' action="{% url 'delete_question' %}">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <input type="submit" value="Delete">
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr></tr>
-</table>
+
+<div class="pt-3 pb-3 container rounded-right rounded-bottom">
+
+    <h2>#{{ tag }}</h2>
+
+
+    <table class="table border bg-white rounded-right rounded-bottom">
+
+        <thead>
+        <tr>
+            <th class="align-middle" style="width: 45%;">Question</th>
+            <th class="align-middle" style="width: 45%;">Answer</th>
+
+
+            <th class="text-center align-middle" style="width:10%;">Edit</th>
+        </tr>
+        </thead>
+
+        {% for question in questions %}
+        <tr>
+
+            <!--  Questions -->
+            <td class="align-middle text-justify">
+                {{ question.q }}
+
+
+            </td>
+
+            <!-- Answers -->
+            <td class="align-middle text-justify answer-cell">
+                {{ question.a }}
+            </td>
+
+
+
+
+            <!-- Edit column -->
+            <td class="text-center align-middle">
+                <a href="{% url 'edit_question' question.id %}">
+                    <i class="material-icons align-middle text-success">edit</i>
+
+                </a>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
 {% endblock %}
+<!-- END OF CONTENT BLOCK-->
