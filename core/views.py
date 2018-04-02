@@ -9,7 +9,7 @@ from core.models import Question
 from .forms import CreateQuestionForm
 
 
-def index(request):
+def home(request):
     if not request.user.is_authenticated:
         if request.method == 'POST':
             form = UserCreationForm(request.POST)
@@ -19,7 +19,7 @@ def index(request):
                 raw_password = form.cleaned_data.get('password1')
                 user = authenticate(username=username, password=raw_password)
                 auth_login(request, user)
-                return redirect('index')
+                return redirect('home')
         else:
             form = UserCreationForm()
         return render(request, 'signup.html', {'form': form})
@@ -39,7 +39,7 @@ def index(request):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('home')
     else:
         return render(request, 'login.html')
 
@@ -52,7 +52,7 @@ def create_question(request):
             form = form.save(commit=False)
             form.user = request.user
             form.save()
-            return redirect('index')
+            return redirect('home')
     return render(request, 'create_question.html')
 
 
@@ -63,7 +63,7 @@ def delete_question(request):
         question = Question.objects.get(id=question_id)
         if question.user == request.user:
             question.delete()
-    return redirect('index')
+    return redirect('home')
 
 
 @login_required
@@ -76,10 +76,10 @@ def edit_question(request, question_id):
             question.a = request.POST.get('a')
             question.tag = request.POST.get('tag')
             question.save()
-            return redirect('index')
+            return redirect('home')
         return render(request, 'edit_question.html', {'question': question})
     else:
-        return redirect('index')
+        return redirect('home')
 
 
 @login_required

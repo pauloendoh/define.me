@@ -18,6 +18,7 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <!-- My custom css -->
     <link href="{% static 'styles/main.css' %}" rel="stylesheet">
 
     <!--Google Icons-->
@@ -32,11 +33,13 @@
 <nav class="navbar navbar-expand-sm bg-white navbar-light ">
     <div class="container">
         <ul class="navbar-nav mr-auto">
+
+            <!-- Brand -->
             <li class="nav-item">
-                <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">Define.me</a>
+                <a class="navbar-brand font-weight-bold" href="{% url 'home' %}">Define.me</a>
             </li>
 
-            <!-- Search question -->
+            <!-- Search box -->
             <li class="nav-item">
                 <form class="form-inline" method="get" action="{% url 'search_question' %}">
                     <div class="input-group">
