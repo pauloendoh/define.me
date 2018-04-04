@@ -9,12 +9,11 @@
         <div class="row">
             <h3 class="ml-3">Edit question </h3>
 
-            <!-- DELETE QUESTION FORM -->
-            <form class="ml-3" action="{% url 'delete_question' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ question.id }}"/>
-                <button type="submit" class="mr-3  btn btn-danger">Delete instead</button>
-            </form>
+            <!-- DELETE QUESTION -->
+            <a href="{% url 'delete_question' question.id %}">
+                <button class="ml-3 btn btn-danger">Delete</button>
+            </a>
+
 
         </div>
 

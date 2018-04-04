@@ -14,3 +14,4 @@ class Question(models.Model):
 
     class Meta:
         ordering = ['updated_at', 'tag']
+

@@ -1,12 +1,11 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from core.models import Question
-from core.forms import CreateQuestionForm
+from core.forms import QuestionForm
 
 
 def home(request):
@@ -49,37 +48,46 @@ def login(request):
 @login_required
 def create_question(request):
     if request.method == 'POST':
-        form = CreateQuestionForm(request.POST)
+        form = QuestionForm(request.POST)
+
         if form.is_valid():
             form = form.save(commit=False)
             form.user = request.user
             form.save()
+
             return redirect('home')
-    return render(request, 'create_question.html')
+    else:
+        return render(request, 'create_question.html')
 
 
 @login_required
-def delete_question(request):
-    if request.method == 'POST':
-        question_id = request.POST.get("id")
-        question = Question.objects.get(id=question_id)
-        if question.user == request.user:
-            question.delete()
+def delete_question(request, question_id):
+    question = Question.objects.get(id=question_id)
+    if question.user == request.user:
+        question.delete()
+
     return redirect('home')
 
 
 @login_required
 def edit_question(request, question_id):
     question = Question.objects.get(id=question_id)
-    user = User.objects.get(id=request.user.id)
+    user = request.user
+
     if question.user == user:
+
         if request.method == 'POST':
             question.q = request.POST.get('q')
             question.a = request.POST.get('a')
             question.tag = request.POST.get('tag')
+
             question.save()
+
             return redirect('home')
-        return render(request, 'edit_question.html', {'question': question})
+
+        else:
+            return render(request, 'edit_question.html', {'question': question})
+
     else:
         return redirect('home')
 
@@ -88,8 +96,10 @@ def edit_question(request, question_id):
 def search_question(request):
     user = request.user
     query = request.GET.get('q')
+
     results = Question.objects.filter(q__icontains=query, user=user)
     tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
+
     return render(request, 'search.html', {"results": results, "query": query, "tags": tags})
 
 
