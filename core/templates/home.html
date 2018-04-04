@@ -1,52 +1,12 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Define.me - {{ user.username }}{% endblock %}
 
 {% block content %}
 
 <!--jQuery AJAX to update questions-->
-<script>
-$(document).ready(function(){
-
-    console.log('jQuery is working'); //sanity check
-
-    $('.update-question-form').submit(function(event){
-        event.preventDefault();
-        console.log('Form submitted'); //sanity check
-        var question_id = $(this).find("input[type=submit]").val();
-        console.log(question_id);
-        update_question(this, question_id);
-    });
-
-});
-
-function update_question(event, question_id){
-    console.log('Starting update_question() function, question id = ' + question_id); //sanity check
-    question_q = $(event).find("input[type=text]").val(); //sanity check
-    console.log("The new question is: "+ question_q); // Sanity check
-
-     $.ajax({
-        url: "/ajax/update_question",
-        type: "POST",
-        data: {
-            csrfmiddlewaretoken: '{{ csrf_token }}',
-            question_id: question_id,
-            question_q: question_q,
-        } ,
-
-        dataType: 'json',
-
-        success : function(data){
-            console.log(data.teste);
-            console.log("Question updated");
-
-        }
-    });
-};
-
-
-
-</script>
+<script src="{% static 'js/main.js' %}"></script>
 
 
 {% if question_list %}
@@ -69,15 +29,6 @@ function update_question(event, question_id){
         <tr>
             <th class="align-middle" style="width: 40%;">Question</th>
             <th class="align-middle" style="width: 40%;">Answer</th>
-
-            <!-- Doesn't need priority yet...
-            <th class="text-center align-middle" style="width:5%;">Priority</th>
-            -->
-
-            <!-- Doesn't need timestamp yet
-            <th class="text-center align-middle" style="width:5%;">Created at</th>
-            -->
-
             <th class="text-center align-middle" style="width:15%;">Tag</th>
             <th class="text-center align-middle" style="width:5%;">Edit</th>
         </tr>
