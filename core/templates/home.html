@@ -13,14 +13,18 @@
 <div class="pt-3 pb-3 container rounded-right rounded-bottom">
 
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link text-success font-weight-bold active" href="#">All </a></li>
+        <li class="nav-item">
+            <a class="nav-link text-success {% ifequal active_tag None %}font-weight-bold active{% endifequal %}" href="{% url 'home' %}">All</a>
+        </li>
+
         {% for tag in tag_list %}
         {% if tag.tag %}
-        <li class="nav-item"><a class="nav-link text-success" href="{%  url 'show_tag' tag.tag %}">#{{ tag.tag }}
-        </a></li>
+        <li class="nav-item">
+            <a class="nav-link text-success {% ifequal active_tag tag.tag %}font-weight-bold active{% endifequal %}" href="{%  url 'home' %}?tag={{tag.tag}}">#{{ tag.tag }}</a>
+        </li>
         {% endif %}
-
         {% endfor%}
+
     </ul>
 
     <table class="table border bg-white rounded-right rounded-bottom">
@@ -70,7 +74,7 @@
             <!-- Tag column -->
             <td class="text-center align-middle">
                 {% if question.tag %}
-                <a class="text-success" href="{% url 'show_tag' question.tag %}">
+                <a class="text-success" href="{% url 'home' %}?tag={{question.tag}}">
                     {{ question.tag }}
                 </a>
                 {% endif %}

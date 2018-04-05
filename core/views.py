@@ -12,11 +12,17 @@ def home(request):
     user = request.user
 
     if user.is_authenticated:
-
-        question_list = Question.objects.filter(user=user).order_by('-updated_at')
         tag_list = Question.objects.filter(user=user).order_by().values('tag').distinct()
 
-        return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list})
+        if request.GET.get('tag'):
+            tag = request.GET.get('tag')
+            question_list = Question.objects.filter(user=user, tag=tag).order_by('-updated_at')
+
+            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list, 'active_tag':tag})
+
+        else:
+            question_list = Question.objects.filter(user=user).order_by('-updated_at')
+            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list})
 
     else:
         user_creation_form = UserCreationForm()
@@ -101,15 +107,6 @@ def search_question(request):
     tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
 
     return render(request, 'search.html', {"results": results, "query": query, "tags": tags})
-
-
-@login_required
-def show_tag(request, tag):
-    user = request.user
-    questions = Question.objects.filter(user=user, tag=tag).order_by('-updated_at')
-    tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
-
-    return render(request, 'tag.html', {"tag": tag, "questions": questions, "tags": tags, "tag_name": tag})
 
 
 @login_required
