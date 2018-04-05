@@ -8,67 +8,17 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link text-success font-weight-bold active" href="#">All </a></li>
-        {% for tag in tags %}
+        {% for tag in tag_list %}
         {% if tag.tag %}
-        <li class="nav-item"><a class="nav-link text-success" href="{%  url 'show_tag' tag.tag %}">#{{ tag.tag }}
+        <li class="nav-item"><a class="nav-link text-success" href="{%  url 'home' %}?tag={{ tag.tag }}">#{{ tag.tag }}
         </a></li>
         {% endif %}
 
         {% endfor%}
     </ul>
 
-    <table class="table border bg-white rounded-right rounded-bottom">
+    {% include 'question_table.html' %}
 
-        <thead>
-        <tr>
-            <th class="align-middle" style="width: 40%;">Question</th>
-            <th class="align-middle" style="width: 40%;">Answer</th>
-
-
-
-            <th class="text-center align-middle" style="width:15%;">Tag</th>
-            <th class="text-center align-middle" style="width:5%;">Edit</th>
-        </tr>
-        </thead>
-
-        {% for question in results %}
-        <tr>
-
-            <!--  Questions -->
-            <td class="align-middle text-justify">
-                {{ question.q }}
-
-
-            </td>
-
-            <!-- Answers -->
-            <td class="align-middle text-justify answer-cell">
-                {{ question.a }}
-            </td>
-
-
-
-            <!-- Tag column -->
-            <td class="text-center align-middle">
-                {% if question.tag %}
-                <a class="text-success" href="{% url 'show_tag' question.tag %}">
-                    {{ question.tag }}
-                </a>
-                {% endif %}
-            </td>
-
-            <!-- Edit column -->
-            <td class="text-center align-middle">
-                <a href="{% url 'edit_question' question.id %}">
-                    <i class="material-icons align-middle text-success">edit</i>
-
-                </a>
-
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
 </div>
 
 

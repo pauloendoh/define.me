@@ -14,84 +14,23 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link text-success {% ifequal active_tag None %}font-weight-bold active{% endifequal %}" href="{% url 'home' %}">All</a>
+            <a class="nav-link text-success {% ifequal active_tag None %}font-weight-bold active{% endifequal %}"
+               href="{% url 'home' %}">All</a>
         </li>
 
         {% for tag in tag_list %}
         {% if tag.tag %}
         <li class="nav-item">
-            <a class="nav-link text-success {% ifequal active_tag tag.tag %}font-weight-bold active{% endifequal %}" href="{%  url 'home' %}?tag={{tag.tag}}">#{{ tag.tag }}</a>
+            <a class="nav-link text-success {% ifequal active_tag tag.tag %}font-weight-bold active{% endifequal %}"
+               href="{%  url 'home' %}?tag={{tag.tag}}">#{{ tag.tag }}</a>
         </li>
         {% endif %}
         {% endfor%}
 
     </ul>
 
-    <table class="table border bg-white rounded-right rounded-bottom">
+    {% include 'question_table.html' %}
 
-        <thead>
-        <tr>
-            <th class="align-middle" style="width: 40%;">Question</th>
-            <th class="align-middle" style="width: 40%;">Answer</th>
-            <th class="text-center align-middle" style="width:15%;">Tag</th>
-            <th class="text-center align-middle" style="width:5%;">Edit</th>
-        </tr>
-        </thead>
-
-        {% for question in question_list %}
-        <tr>
-
-            <!--  Question list -->
-            <td class="align-middle text-justify">
-                {{ question.q }}
-
-                <!--<form class="update-question-form">
-                    {% csrf_token %}
-                    <input class="form-control" type="text" value="{{ question.q }}"/>
-                    <input type="submit" value="{{ question.id }}" style="display:none;"/>
-                </form>-->
-            </td>
-
-            <!-- Answers -->
-            <td class="align-middle text-justify answer-cell">
-
-                <!--{% if not question.a %}
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ question.id }}"/>
-                    <input type="text" name="a" placeholder="Answer"/>
-                    <input type="submit" value="save"/>
-                </form>
-                {% endif %}-->
-                {{ question.a }}
-            </td>
-
-
-            <!-- Doesn't need priority and timestamp yet
-            <td class="text-center align-middle">{{ question.priority|floatformat }}</td>
-            <td class="text-center align-middle">{{ question.created_at|date:'Y-m-d' }}</td>-->
-
-            <!-- Tag column -->
-            <td class="text-center align-middle">
-                {% if question.tag %}
-                <a class="text-success" href="{% url 'home' %}?tag={{question.tag}}">
-                    {{ question.tag }}
-                </a>
-                {% endif %}
-            </td>
-
-            <!-- Edit column -->
-            <td class="text-center align-middle">
-                <a href="{% url 'edit_question' question.id %}">
-                    <i class="material-icons align-middle text-success">edit</i>
-
-                </a>
-
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
 </div>
 
 {% endif %}

@@ -15,10 +15,10 @@ def home(request):
         tag_list = Question.objects.filter(user=user).order_by().values('tag').distinct()
 
         if request.GET.get('tag'):
-            tag = request.GET.get('tag')
-            question_list = Question.objects.filter(user=user, tag=tag).order_by('-updated_at')
+            active_tag = request.GET.get('tag')
+            question_list = Question.objects.filter(user=user, tag=active_tag).order_by('-updated_at')
 
-            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list, 'active_tag':tag})
+            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list, 'active_tag':active_tag})
 
         else:
             question_list = Question.objects.filter(user=user).order_by('-updated_at')
@@ -103,10 +103,10 @@ def search_question(request):
     user = request.user
     query = request.GET.get('q')
 
-    results = Question.objects.filter(q__icontains=query, user=user)
-    tags = Question.objects.filter(user=user).order_by().values('tag').distinct()
+    question_list = Question.objects.filter(q__icontains=query, user=user)
+    tag_list = Question.objects.filter(user=user).order_by().values('tag').distinct()
 
-    return render(request, 'search.html', {"results": results, "query": query, "tags": tags})
+    return render(request, 'search.html', {"question_list": question_list, "query": query, "tag_list": tag_list})
 
 
 @login_required
