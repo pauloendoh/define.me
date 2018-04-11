@@ -48,19 +48,17 @@
                     <div class="input-group">
                         <input type="text" class="form-control" name="q" placeholder="Search your question" {% if query %}value="{{ query }}"{% endif %} />
                         <div class="input-group-append">
-                            <button class="form-control"><i class="material-icons align-middle">search</i></button>
+                            <button class="btn btn-success"><i class="material-icons align-middle">search</i></button>
                         </div>
                     </div>
                 </form>
             </li>
 
             <!-- Create new item -->
-            <div class="pl-3">
-                <li class="nav-item">
+            <div class="pl-3 align-middle">
                     <a class="" href="{% url 'create_question' %}">
                         <button type="button" class="btn btn-success rounded font-weight-bold">Create Question</button>
                     </a>
-                </li>
             </div>
 
         </ul>
