@@ -12,16 +12,17 @@
 {% if question_list %}
 <div class="pt-3 pb-3 container rounded-right rounded-bottom">
 
+    <!-- Tag tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link text-success {% ifequal active_tag None %}font-weight-bold active {% endifequal %}"
+            <a class="nav-link text-success {% ifequal request.GET.tag None %}font-weight-bold active {% endifequal %}"
                href="{% url 'home' %}">All</a>
         </li>
 
         {% for tag in tag_list %}
         {% if tag.tag %}
         <li class="nav-item">
-            <a class="nav-link text-success {% ifequal active_tag tag.tag %}font-weight-bold active{% endifequal %}"
+            <a class="nav-link text-success {% ifequal request.GET.tag tag.tag %}font-weight-bold active{% endifequal %}"
                href="{%  url 'home' %}?tag={{tag.tag}}">#{{ tag.tag }}</a>
         </li>
         {% endif %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Create a question{% endblock %}
+
+{% block content %}
+
+<script src="{% static 'js/google_button.js' %}" ></script>
+
+<div class="mt-3 container rounded bg-white">
+    <div class="container pt-3">
+        <h3>New question:</h3>
+
+        <form class="mt-4 " method="post">
+            {% csrf_token %}
+            {% include "CRUDquestion/question_form.html" %}
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

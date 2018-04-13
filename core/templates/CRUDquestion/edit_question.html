@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Edit question{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/google_button.js' %}"></script>
+
+<div class="mt-3 container rounded bg-white">
+    <div class="container pt-3">
+        <div class="row">
+            <h3 class="ml-3">Edit question </h3>
+
+            <!-- DELETE QUESTION -->
+            <a href="{% url 'delete_question' question.id %}">
+                <button class="ml-3 btn btn-danger">Delete</button>
+            </a>
+
+        </div>
+
+        <!-- EDIT QUESTION FORM -->
+        <form class="mt-4 " method="post">
+            {% csrf_token %}
+            {% include "CRUDquestion/question_form.html" %}
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}

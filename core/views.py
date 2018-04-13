@@ -1,47 +1,32 @@
-from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
+from core.functions import get_tag_list, get_question_list, save_and_authenticate_user
 from core.models import Question
 from core.forms import QuestionForm
 
 
 def home(request):
-    user = request.user
+    if request.user.is_authenticated:
+        tag_list = get_tag_list(request)
+        question_list = get_question_list(request)
 
-    if user.is_authenticated:
-        tag_list = Question.objects.filter(user=user).order_by().values('tag').distinct()
+        return render(request, "home.html", {"tag_list": tag_list, "question_list": question_list})
 
-        if request.GET.get('tag'):
-            active_tag = request.GET.get('tag')
-            question_list = Question.objects.filter(user=user, tag=active_tag).order_by('-updated_at')
+    else:  # if not request.user.is_authenticated
+        if request.method == "POST":
+            if UserCreationForm(request.POST).is_valid():
+                save_and_authenticate_user(request)
+                return redirect("home")
+            else:
+                user_creation_form = UserCreationForm(request.POST)
+                return render(request, 'signup.html', {'user_creation_form': user_creation_form})
 
-            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list, 'active_tag':active_tag})
-
-        else:
-            question_list = Question.objects.filter(user=user).order_by('-updated_at')
-            return render(request, 'home.html', {"question_list": question_list, "tag_list": tag_list})
-
-    else:
-        user_creation_form = UserCreationForm()
-
-        if request.method == 'POST':
-            user_creation_form = UserCreationForm(request.POST)
-
-            if user_creation_form.is_valid():
-                user_creation_form.save()
-
-                username = user_creation_form.cleaned_data.get('username')
-                raw_password = user_creation_form.cleaned_data.get('password1')
-
-                user = authenticate(username=username, password=raw_password)
-                auth_login(request, user)
-
-                return redirect('home')
-
-        return render(request, 'signup.html', {'user_creation_form': user_creation_form})
+        else:  # if not request.method == "POST"
+            user_creation_form = UserCreationForm()
+            return render(request, 'signup.html', {'user_creation_form': user_creation_form})
 
 
 def login(request):
@@ -63,7 +48,7 @@ def create_question(request):
 
             return redirect('home')
     else:
-        return render(request, 'create_question.html')
+        return render(request, 'CRUDquestion/create_question.html')
 
 
 @login_required
@@ -92,7 +77,7 @@ def edit_question(request, question_id):
             return redirect('home')
 
         else:
-            return render(request, 'edit_question.html', {'question': question})
+            return render(request, 'CRUDquestion/edit_question.html', {'question': question})
 
     else:
         return redirect('home')
