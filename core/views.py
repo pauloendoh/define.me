@@ -26,14 +26,14 @@ def home(request):
 
         else:  # if not request.method == "POST"
             user_creation_form = UserCreationForm()
-            return render(request, 'signup.html', {'user_creation_form': user_creation_form})
+            return render(request, 'authentication/signup.html', {'user_creation_form': user_creation_form})
 
 
 def login(request):
     if request.user.is_authenticated:
         return redirect('home')
     else:
-        return render(request, 'login.html')
+        return render(request, 'authentication/login.html')
 
 
 @login_required
